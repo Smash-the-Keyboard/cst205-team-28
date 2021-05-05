@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Team 28</title>
+    </head>
+    <body>
+        <form method="GET" action="">
+            {{ form.query.label }}
+            {{ form.query() }}
+            <br>
+            <input type="submit" value="Search">
+        </form>
+        {% if search_query %}
+            <div>
+                <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
+                {% for result in search_results %}
+                    <div>
+                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </body>
+</html>
