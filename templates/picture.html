@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{bootstrap.load_css()}}
+    {{bootstrap.load_js()}}
+</head>
+<body style="text-align: center;">
+
+<h1>{{ data['title'] }} by {{ data['flickr_user'] }}</h1>
+<br>
+    <img
+        src="/static/images/{{data['id']}}.jpg"
+        class="img-fluid rounded"
+        alt="{{ data['title'] }}"
+    >
+<br>
+<p>
+    {{ details.mode}} image in 
+    {{ details.format}} format with width
+    {{ details.width}} and height {{ details.height}}.
+</p>
+
+
+<a href="{{url_for('main')}}">Back to list of Images</a>
+
+
+
+</body>
+</html>
