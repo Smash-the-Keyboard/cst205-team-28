@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Team 28</title>
+    </head>
+    <body>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            {{ form.image_file.label }}
+            {{ form.image_file() }}
+            <br>
+            {{ form.image_title.label }}
+            {{ form.image_title() }}
+            <br>
+            {{ form.image_tags.label }}
+            {{ form.image_tags }}
+            <br>
+            {{ form.image_effect.label }}
+            {{ form.image_effect() }}
+            <br>
+            <input type="submit" value="Upload">
+        </form>
+    </body>
+</html>

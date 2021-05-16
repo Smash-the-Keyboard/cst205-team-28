@@ -24,17 +24,28 @@
             <!-- {{ form.query.label }} -->
             {{ form.query() }}
             <br>
-            {{ form.count.label }}
-            {{ form.count() }}
-            <br>
             <input type="submit" value="Search">
         </form>
         {% if search_query %}
             <div>
-                <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
-                {% for result in search_results %}
+                <h3>
+                    Your search "{{ search_query }}" returned {{ local_results|length }}
+                    result{% if local_results|length != 1 %}s{% endif %} from our site
+                    and {{ flickr_results|length }} result{% if flickr_results|length != 1 %}s{% endif %}
+                    from Flickr
+                </h3>
+                <h2>Results from this site:</h2>
+                {% for result in local_results %}
                     <div>
-                        <img src="{{ result['url_n'] }}">
+                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                        <img src="static/images/{{ result['id'] }}.jpg" alt="{{ result['title'] }}">
+                    </div>
+                {% endfor %}
+                <h2>Results from Flickr:</h2>
+                {% for result in flickr_results %}
+                    <div>
+                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                        <img src="{{ result['url_n'] }}" alt="{{ result['title'] }}">
                     </div>
                 {% endfor %}
             </div>
