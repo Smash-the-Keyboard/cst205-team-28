@@ -6,37 +6,39 @@
         {{bootstrap.load_css()}}
         {{bootstrap.load_js()}}
     </head>
-    <body>
+    <body class="primary">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">Navbar</a>
+            <a class="navbar-brand" href="/">CST205</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Browse</a>
-                <a class="nav-item nav-link" href="#">Misc</a>
-                
+                <!-- <a class="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a> -->
               </div>
             </div>
           </nav>
 
-        <form method="GET" action="">
-            {{ form.query.label }}
+        <div style="text-align: center; margin-top: 0.5em;">
+          <form method="GET" action="">
+            <!-- {{ form.query.label }} -->
             {{ form.query() }}
             <br>
-            <input type="submit" value="Search">
-        </form>
-        {% if search_query %}
-            <div>
-                <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
-                {% for result in search_results %}
-                    <div>
-                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+            <input type="submit" value="Search" class="btn btn-dark" style="margin-top: 0.5em;">
+          </form>
+        
+      
+          {% if search_query %}
+              <div>
+                  <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
+                  {% for result in search_results %}
+                      <div>
+                          <h3 style="text-decoration: underline;"><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                          <img src="{{ result['url_n'] }}" alt="{{ result['title'] }}">
+                      </div>
+                  {% endfor %}
+              </div>
+          {% endif %}
+        </div>
     </body>
 </html>
