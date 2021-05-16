@@ -24,21 +24,20 @@
             <!-- {{ form.query.label }} -->
             {{ form.query() }}
             <br>
-            <input type="submit" value="Search" class="btn btn-dark" style="margin-top: 0.5em;">
-          </form>
-        
-      
-          {% if search_query %}
-              <div>
-                  <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
-                  {% for result in search_results %}
-                      <div>
-                          <h3 style="text-decoration: underline;"><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
-                          <img src="{{ result['url_n'] }}" alt="{{ result['title'] }}">
-                      </div>
-                  {% endfor %}
-              </div>
-          {% endif %}
-        </div>
+            {{ form.count.label }}
+            {{ form.count() }}
+            <br>
+            <input type="submit" value="Search">
+        </form>
+        {% if search_query %}
+            <div>
+                <h2>Your search "{{ search_query }}" returned {{ search_results|length }} result{% if search_results|length != 1 %}s{% endif %}</h2>
+                {% for result in search_results %}
+                    <div>
+                        <img src="{{ result['url_n'] }}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </body>
 </html>
