@@ -8,36 +8,37 @@
         {% include 'navigation.html' %}
 
         <div style="text-align: center; margin-top: 0.5em;">
-          <form method="GET" action="">
-            <!-- {{ form.query.label }} -->
-            {{ form.query() }}
-            <br>
-            <input type="submit" value="Search" class="btn btn-dark" style="margin-top: 0.5em;">
-        </form>
-        {% if search_query %}
-            <div>
-                <h3>
-                    Your search "{{ search_query }}" returned {{ local_results|length }}
-                    result{% if local_results|length != 1 %}s{% endif %} from this site
-                    and {{ flickr_results|length }} result{% if flickr_results|length != 1 %}s{% endif %}
-                    from Flickr
-                </h3>
-                <h2>Results from this site:</h2>
-                {% for result in local_results %}
-                    <div>
-                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
-                        <img src="static/images/{{ result['id'] }}.jpg" alt="{{ result['title'] }}">
-                    </div>
-                {% endfor %}
-                <hr>
-                <h2>Results from Flickr:</h2>
-                {% for result in flickr_results %}
-                    <div>
-                        <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
-                        <img src="{{ result['url_n'] }}" alt="{{ result['title'] }}">
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+            <form method="GET" action="">
+                <!-- {{ form.query.label }} -->
+                {{ form.query() }}
+                <br>
+                <input type="submit" value="Search" class="btn btn-dark" style="margin-top: 0.5em;">
+            </form>
+            {% if search_query %}
+                <div>
+                    <h3>
+                        Your search "{{ search_query }}" returned {{ local_results|length }}
+                        result{% if local_results|length != 1 %}s{% endif %} from this site
+                        and {{ flickr_results|length }} result{% if flickr_results|length != 1 %}s{% endif %}
+                        from Flickr
+                    </h3>
+                    <h2>Results from this site:</h2>
+                    {% for result in local_results %}
+                        <div>
+                            <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                            <img src="static/images/{{ result['id'] }}.jpg" alt="{{ result['title'] }}">
+                        </div>
+                    {% endfor %}
+                    <hr>
+                    <h2>Results from Flickr:</h2>
+                    {% for result in flickr_results %}
+                        <div>
+                            <h3><a href="{{ url_for('image', image_id=result['id']) }}">{{ result['title'] }}</a></h3>
+                            <img src="{{ result['url_n'] }}" alt="{{ result['title'] }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </body>
 </html>

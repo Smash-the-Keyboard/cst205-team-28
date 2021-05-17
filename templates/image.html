@@ -3,16 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <title>Team 28</title>
+        <style>
+            #image {
+                max-height: 800px;
+                max-width: 1000px;
+            }
+            #main-div {
+                width: 50%;
+                margin: 10px auto;
+                align-content: center;
+                text-align: center;
+            }
+            img {
+                margin: 0 auto;
+            }
+        </style>
     </head>
     <body>
         {% include 'navigation.html' %}
-        <img src="{{ image_info['url'] }}" alt="{{ image_info['title'] }}">
-        <form method="POST" action="">
-            {{ form.csrf_token }}
-            {{ form.effect.label }}
-            {{ form.effect() }}
-            <br>
-            <input type="submit" value="Apply">
-        </form>
+        <div id="main-div">
+            <img id="image" src="{{ image_info['url'] }}" alt="{{ image_info['title'] }}">
+            <div class="card" style="margin: 20px; padding: 10px">
+                <form method="POST" action="" role="form" class="form form-horizontal">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group mb-3">
+                        {{ form.effect.label }}
+                        {{ form.effect(class_="form-select") }}
+                    </div>
+                    <button class="btn btn-primary">Apply</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

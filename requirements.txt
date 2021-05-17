@@ -1,0 +1,9 @@
+Bootstrap-Flask==1.5.1
+Flask==1.1.2
+Flask-WTF==0.14.3
+flickrapi==2.4.0
+Jinja2==2.11.3
+numpy==1.20.2
+Pillow==8.1.2
+requests==2.25.1
+WTForms==2.3.3
