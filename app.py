@@ -214,7 +214,6 @@ def upload():
     upload_form = ImageUpload()
 
     if upload_form.validate_on_submit():
-        print('Upload form is valid')
         # Save image file
         image_file = upload_form.image_file.data
         image_file_path = os.path.join(app.instance_path, '..', 'static', 'images', image_file.filename)
@@ -230,9 +229,5 @@ def upload():
         }
         save_image_info_file(image_info)
         return redirect(url_for('image', image_id=image_id))
-    else:
-        print(upload_form.image_title.data)
-        print('Upload form is NOT valid!')
-        print(upload_form.errors)
 
     return render_template('upload.html', form=upload_form)
