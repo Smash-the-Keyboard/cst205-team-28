@@ -31,12 +31,16 @@ image_effects = ['None', 'Grayscale', 'Negative', 'Sepia', 'Thumbnail']
 
 
 def get_image_info_file():
-    with open('info.json') as info:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    infoJSON = os.path.join(dir_path, "info.json")
+    with open(infoJSON) as info:
         return json.loads(info.read())
 
 
 def save_image_info_file(info_dict):
-    with open('info.json', 'w') as info_file:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    infoJSON = os.path.join(dir_path, "info.json")
+    with open(infoJSON, 'w') as info_file:
         info_file.write(json.dumps(info_dict))
 
 

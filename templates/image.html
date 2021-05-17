@@ -5,6 +5,7 @@
         <title>Team 28</title>
     </head>
     <body>
+        {% include 'navigation.html' %}
         <img src="{{ image_info['url'] }}" alt="{{ image_info['title'] }}">
         <form method="POST" action="">
             {{ form.csrf_token }}

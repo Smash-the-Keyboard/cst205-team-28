@@ -4,12 +4,15 @@
         <meta charset="UTF-8">
         <title>Team 28</title>
     </head>
-    <body>
-        <form method="GET" action="">
-            {{ form.query.label }}
+    <body class="primary">
+        {% include 'navigation.html' %}
+
+        <div style="text-align: center; margin-top: 0.5em;">
+          <form method="GET" action="">
+            <!-- {{ form.query.label }} -->
             {{ form.query() }}
             <br>
-            <input type="submit" value="Search">
+            <input type="submit" value="Search" class="btn btn-dark" style="margin-top: 0.5em;">
         </form>
         {% if search_query %}
             <div>
