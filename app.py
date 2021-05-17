@@ -1,7 +1,7 @@
 # Class: CST 205 - Multimedia Design & Programming
 # Title: app.py
 # Abstract: Main file for the flask application
-# Authors: Christian Sumares
+# Authors: Christian Sumares, Ethan Blake Castro
 # Date Created: 04/26/2021
 
 # Standard imports
