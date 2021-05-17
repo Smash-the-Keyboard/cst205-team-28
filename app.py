@@ -3,13 +3,8 @@
 # Abstract: Main file for the flask application
 # Authors: Christian Sumares
 # Date Created: 04/26/2021
-<<<<<<< HEAD
-# Library imports
-import os
-=======
 
 # Standard imports
->>>>>>> be28e96fa205d17662cb8f50a926933bc8ca2426
 import ast
 import os
 
@@ -31,7 +26,6 @@ bootstrap = Bootstrap(app)
 
 image_effects = ['None']
 
-
 def get_image_info_file():
     with open('info.json') as info:
         return json.loads(info.read())
@@ -47,11 +41,11 @@ def id_from_filename(filename):
 
 
 def get_image_info(image_id):
-
+    
     image_info = {}
 
     local_info = get_image_info_file()
-
+    
     if image_id in local_info:
         image_info = local_info[image_id]
         image_info['url'] = f'/static/images/{image_id}.jpg'
@@ -124,30 +118,16 @@ def flickr_search(query):
 def index():
 
     search_form = Search()
-<<<<<<< HEAD
-    search_results = []
-=======
 
     local_results = []
     flickr_results = []
 
->>>>>>> be28e96fa205d17662cb8f50a926933bc8ca2426
     query = request.args.get('query')
 
     if query is not None:
         local_results = search(query)
         flickr_results = flickr_search(query)
 
-<<<<<<< HEAD
-    return render_template('index.html', form=search_form, search_query=query, search_results=search_results)
-@app.route('/image/<image_id>', methods=('GET', 'POST'))
-def image(image_id):
-    image_form = ImageManipulation()
-    if image_form.validate_on_submit():
-        # Apply image manipulation here?
-        pass
-    return render_template('image.html', form=image_form, image_id=image_id)
-=======
     return render_template(
         'index.html',
         form=search_form,
@@ -200,4 +180,3 @@ def upload():
         print(upload_form.errors)
 
     return render_template('upload.html', form=upload_form)
->>>>>>> be28e96fa205d17662cb8f50a926933bc8ca2426
