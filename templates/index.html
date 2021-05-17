@@ -15,7 +15,7 @@
             <div>
                 <h3>
                     Your search "{{ search_query }}" returned {{ local_results|length }}
-                    result{% if local_results|length != 1 %}s{% endif %} from our site
+                    result{% if local_results|length != 1 %}s{% endif %} from this site
                     and {{ flickr_results|length }} result{% if flickr_results|length != 1 %}s{% endif %}
                     from Flickr
                 </h3>
@@ -26,6 +26,7 @@
                         <img src="static/images/{{ result['id'] }}.jpg" alt="{{ result['title'] }}">
                     </div>
                 {% endfor %}
+                <hr>
                 <h2>Results from Flickr:</h2>
                 {% for result in flickr_results %}
                     <div>

@@ -1,7 +1,7 @@
 # Class: CST 205 - Multimedia Design & Programming
 # Title: app.py
 # Abstract: Main file for the flask application
-# Authors: Christian Sumares
+# Authors: Christian Sumares, Ethan Blake Castro
 # Date Created: 04/26/2021
 
 # Standard imports
@@ -14,9 +14,12 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from flickrapi import FlickrAPI  # Flickr API Library
+from requests import get as requests_get
 from wtforms import SelectField, StringField
 from wtforms.validators import DataRequired
-from PIL import Image
+
+# Local imports
+from transform import *
 
 
 app = Flask(__name__)
@@ -24,7 +27,7 @@ app.config['SECRET_KEY'] = 'INSERT SECRET KEY HERE'
 bootstrap = Bootstrap(app)
 
 
-image_effects = ['None']
+image_effects = ['None', 'Grayscale', 'Negative', 'Sepia', 'Thumbnail']
 
 
 def get_image_info_file():
@@ -52,7 +55,6 @@ def get_image_info(image_id):
         image_info['url'] = f'/static/images/{image_id}.jpg'
     else:
         raw_response = flickr.photos.getInfo(photo_id=image_id)
-        print(raw_response)
         flickr_info = json.loads(raw_response.decode('utf-8'))
         if flickr_info['stat'] == 'ok':
             photo = flickr_info['photo']
@@ -84,6 +86,7 @@ class ImageUpload(FlaskForm):
     image_effect = SelectField('Effect', choices=image_effects)
 
 
+# Initialize Flickr API module
 flickr_filename = os.path.join(app.static_folder, 'data', 'flickr.json')
 with open(flickr_filename) as flickr_file:
     flickr_keys = json.load(flickr_file)
@@ -110,9 +113,31 @@ def search(query):
 
 def flickr_search(query):
     extras = 'url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o'
-    decode = (flickr.photos.search(text=query, per_page=5, extras=extras)).decode('utf-8')
+    decode = (flickr.photos.search(text=query, per_page=5, safe_search=1, extras=extras)).decode('utf-8')
     photos = ast.literal_eval(decode)
     return photos['photos']['photo']
+
+
+def apply_image_effect(image_path, effect, output_path=None):
+
+    if output_path is None:
+        output_path = image_path
+
+    if effect == 'Grayscale':
+        grayscale(image_path, output_path)
+    elif effect == 'Negative':
+        negative(image_path, output_path)
+    elif effect == 'Sepia':
+        sepia(image_path, output_path)
+    elif effect == 'Thumbnail':
+        thumbnail(image_path, output_path)
+
+
+def download_flickr_image(flickr_url, file_path):
+    r = requests_get(flickr_url, stream=True)
+    with open(file_path, 'wb') as f:
+        for chunk in r:
+            f.write(chunk)
 
 
 @app.route('/')
@@ -145,13 +170,36 @@ def image(image_id):
 
     image_info = get_image_info(image_id)
 
-    if effect_form.validate_on_submit():
-        # Manipulate image here?
-        # Update image url for this response
-        pass
+    effect = effect_form.effect.data
 
     if 'url' not in image_info:
         abort(404)
+
+    if effect_form.validate_on_submit() and effect != 'None':
+        # Build image file name
+        modified_file_name = f'{image_id}_{effect}.jpg'
+        # Check if a modified image already exists
+        modified_file_path = os.path.join(
+            app.instance_path,
+            '..',
+            'static',
+            'images',
+            'effect_cache',
+            modified_file_name
+        )
+        if not os.path.exists(modified_file_path):
+            if 'flickr_page_url' in image_info:
+                # Download a copy of the original image
+                download_flickr_image(image_info['url'], modified_file_path)
+                # Apply effect
+                apply_image_effect(modified_file_path, effect)
+            else:
+                # Get the path of the original file
+                original_file_path = os.path.join(app.instance_path, '..', 'static', 'images', f'{image_id}.jpg')
+                # Apply effect
+                apply_image_effect(original_file_path, effect, modified_file_path)
+        # Update image url for this response
+        image_info['url'] = f'/static/images/effect_cache/{modified_file_name}'
 
     return render_template('image.html', form=effect_form, image_info=image_info)
 
@@ -165,7 +213,10 @@ def upload():
         print('Upload form is valid')
         # Save image file
         image_file = upload_form.image_file.data
-        image_file.save(os.path.join(app.instance_path, '..', 'static', 'images', image_file.filename))
+        image_file_path = os.path.join(app.instance_path, '..', 'static', 'images', image_file.filename)
+        image_file.save(image_file_path)
+        # Apply effect, if any
+        apply_image_effect(image_file_path, upload_form.image_effect.data)
         # Update info.json
         image_id = id_from_filename(image_file.filename)
         image_info = get_image_info_file()
