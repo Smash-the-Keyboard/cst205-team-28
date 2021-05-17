@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Team 28</title>
     </head>
-    <body>
+    <body class="bg-light">
         {% include 'navigation.html' %}
         <img src="{{ image_info['url'] }}" alt="{{ image_info['title'] }}">
         <form method="POST" action="">
@@ -12,7 +12,7 @@
             {{ form.effect.label }}
             {{ form.effect() }}
             <br>
-            <input type="submit" value="Apply">
+            <input type="submit" value="Apply" class="btn btn-dark">
         </form>
     </body>
 </html>
