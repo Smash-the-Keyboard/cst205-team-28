@@ -3,10 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Team 28</title>
-        {{bootstrap.load_css()}}
-        {{bootstrap.load_js()}}
     </head>
     <body>
+        {% include 'navigation.html' %}
         <img src="{{ image_info['url'] }}" alt="{{ image_info['title'] }}">
         <form method="POST" action="">
             {{ form.csrf_token }}
