@@ -32,6 +32,9 @@ The site will be hosted at http://127.0.0.1:5000/
 ## GitHub Repository Link
 https://github.com/Smash-the-Keyboard/cst205-team-28
 
+## Trello Board Link
+https://trello.com/b/ATAiX1HF/cst205-team-28
+
 ## Future Work
  - Improve image caching system
  - Validate image ids to prevent overwrites
